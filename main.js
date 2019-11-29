@@ -36,6 +36,19 @@ function get_params_form(form){
             var formax = xmlAll.length <= 5?i<xmlAll.length:5; 
             console.log("ternarnui = ", formax);
             
+            var b = document.getElementById('body');
+            var f = document.getElementById('foundedcontent');
+            f.remove(b);
+
+            var f1 = document.createElement('div');
+            f1.className = "container content col-sm-12 col-md-12 products";
+            f1.id = "foundedcontent";
+            b.appendChild(f1);
+
+            var r1 = document.createElement('div');
+            r1.className = "row";
+            f1.appendChild(r1); 
+
             for (let i=0; i<formax; i++){
                 let x = xmlAll[i];
                 console.log("x", x);
@@ -44,54 +57,51 @@ function get_params_form(form){
                 let year = x.getAttribute('year');
                 let poster = x.getAttribute('poster');
 
-                // Создаем карточку фильма
-                var b = document.getElementById('body');
-                var r = document.getElementById('foundedcontent');
-                b.remove(r);
-                var r = document.createElement('div');
-                r.className = "container content col-sm-12 col-md-12 products";
-                r.id = "foundedcontent";
+                // Создаем карточку фильма                  
 
-                var m = document.createElement('div');
-                m.className = "container content col-sm-12 col-md-12 products";
-                r.appendChild('m');
-                
-                var d2 = document.createElement('div');
-                d2.className = "row";
-                m.appendChild('d2');
                 var d3 = document.createElement('div');
                 d3.className = "col-sm-4 col-md-3";
-                d2.appendChild('d3');
+                r1.appendChild(d3);
+
                 var d4 = document.createElement('div');
                 d4.className = "product";
-                d3.appendChild('d4');
+                d3.appendChild(d4);
+
                 var d5 = document.createElement('div');
                 d5.className = "product-img";
-                d4.appendChild('d5');
+                d4.appendChild(d5);
+
                 var a = document.createElement('a');
                 a.href = "#"; // ссылка на детальную информацию
-                d4.appendChild('a');
+                d4.appendChild(a);
+
                 var img = document.createElement('img');
                 img.src = poster;
-                a.appendChild('img');
+                a.appendChild(img);
+
                 var span1 = document.createElement('span');
                 span1.className = "product-title";
-                d4.appendChild('span1');
+                d4.appendChild(span1);
+
                 var h5 = document.createElement('h5');
-                span1.appendChild('h5');
+                span1.appendChild(h5);
+
                 var a1 = document.createElement('a');
                 a1.textContent = title;
-                h5.appendChild('a1');
+                h5.appendChild(a1);
+
                 var span2 = document.createElement('span');
                 span2.className = "product-desc";
                 span2.textContent = type;
-                d4.appendChild('span2');
+                d4.appendChild(span2);
+
                 var br = document.createElement('br');
-                d4.appendChild('br');
+                d4.appendChild(br);
+
                 var span3 = document.createElement('span');
                 span2.className = "product-price";
                 span2.textContent = year;
-                d4.appendChild('span3');
+                d4.appendChild(span3);
 
                
 
