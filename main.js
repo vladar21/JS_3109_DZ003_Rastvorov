@@ -1,37 +1,110 @@
-var xmlhttp = new XMLHttpRequest();
-var rXML;
-xmlhttp.open("GET", "http://www.omdbapi.com/?i=tt3896198&apikey=365d77a0&t=Last&y=2019&r=xml", true);
-xmlhttp.onreadystatechange=function() {
-    if (xmlhttp.readyState==4) {
-        rXML = xmlhttp.responseXML;
-        console.log(rXML);
-        var xmlAll = xmlhttp.responseXML.querySelectorAll("movie");
-        console.log(xmlAll);
-        for (let i=0; i<xmlAll.length;i++){
-            let x = xmlAll[i];
-            console.log("x", x);
-            var title = "";
-            var type = "";
-            var year = "";
-            var poster = "";
-            
-            var attr = x.attributes;
-            console.log(attr);
-            
-            title = x.getAttribute('title');
-            type = x.getAttribute('type');
-            year = x.getAttribute('year');
-            poster = x.getAttribute('poster');
-            
-            
-            document.getElementById("demo").innerHTML = title + " " + type + " " + year + " " + poster;
-            
 
-        
+function get_params_form(form){
+
+    // Форма, начало
+    console.log("by id ", form.elements["t"].value);
+    // for(var i=0;i<form.elements.length;i++)
+    //     {
+    //     console.log(form.elements[i].value);
+    //     }
+    
+    var s = form.elements["t"].value;
+    var y = form.elements["y"].value;
+    var tp = form.elements["type"].value;
+    
+    //var s = unescape(t);
+    console.log("s = ", s);    
+
+    var xmlhttp = new XMLHttpRequest();
+    var rXML;
+    var reqget = "http://www.omdbapi.com/?i=tt3896198&apikey=365d77a0&s=" + s + "&y=" + y + "&type=" + tp + "&r=xml";
+    console.log(reqget);
+    
+    // Форма, конец
+
+    // Запрос, начало
+
+    xmlhttp.open("GET", reqget, true);
+
+    xmlhttp.onreadystatechange=function() {
+
+        if (xmlhttp.readyState==4) {
+
+            var xmlAll = xmlhttp.responseXML.querySelectorAll("result");
+            //xmlAll = xmlhttp.responseXML;
+            // console.log("xmlAll = ", xmlAll);
+            var formax = xmlAll.length <= 5?i<xmlAll.length:5; 
+            console.log("ternarnui = ", formax);
+            
+            for (let i=0; i<formax; i++){
+                let x = xmlAll[i];
+                console.log("x", x);
+                let title = x.getAttribute('title');
+                let type = x.getAttribute('type');
+                let year = x.getAttribute('year');
+                let poster = x.getAttribute('poster');
+
+                // Создаем карточку фильма
+                var b = document.getElementById('body');
+                var r = document.getElementById('foundedcontent');
+                b.remove(r);
+                var r = document.createElement('div');
+                r.className = "container content col-sm-12 col-md-12 products";
+                r.id = "foundedcontent";
+
+                var m = document.createElement('div');
+                m.className = "container content col-sm-12 col-md-12 products";
+                r.appendChild('m');
+                
+                var d2 = document.createElement('div');
+                d2.className = "row";
+                m.appendChild('d2');
+                var d3 = document.createElement('div');
+                d3.className = "col-sm-4 col-md-3";
+                d2.appendChild('d3');
+                var d4 = document.createElement('div');
+                d4.className = "product";
+                d3.appendChild('d4');
+                var d5 = document.createElement('div');
+                d5.className = "product-img";
+                d4.appendChild('d5');
+                var a = document.createElement('a');
+                a.href = "#"; // ссылка на детальную информацию
+                d4.appendChild('a');
+                var img = document.createElement('img');
+                img.src = poster;
+                a.appendChild('img');
+                var span1 = document.createElement('span');
+                span1.className = "product-title";
+                d4.appendChild('span1');
+                var h5 = document.createElement('h5');
+                span1.appendChild('h5');
+                var a1 = document.createElement('a');
+                a1.textContent = title;
+                h5.appendChild('a1');
+                var span2 = document.createElement('span');
+                span2.className = "product-desc";
+                span2.textContent = type;
+                d4.appendChild('span2');
+                var br = document.createElement('br');
+                d4.appendChild('br');
+                var span3 = document.createElement('span');
+                span2.className = "product-price";
+                span2.textContent = year;
+                d4.appendChild('span3');
+
+               
+
+            
+            }
         }
     }
+    xmlhttp.send(null)
+
+    // Запрос, конец
+
 }
-xmlhttp.send(null)
+
 
 function myFunction(xml) {
     var x, i, xmlDoc, txt;
