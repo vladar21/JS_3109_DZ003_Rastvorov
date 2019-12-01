@@ -2,28 +2,19 @@
 function get_params_form(form){
 
     // Форма, начало
-    console.log("by id ", form.elements["t"].value);
-    // for(var i=0;i<form.elements.length;i++)
-    //     {
-    //     console.log(form.elements[i].value);
-    //     }
-    
     var s = form.elements["t"].value;
     var y = form.elements["y"].value;
     var tp = form.elements["type"].value;
     var p = 1;
     
-    //var s = unescape(t);
-    console.log("s = ", s);    
-
     //var reqget = "http://www.omdbapi.com/?i=tt3896198&apikey=365d77a0&s=" + s + "&y=" + y + "&type=" + tp + "&page=" + p + "&r=xml";
     var basicreqget = "http://www.omdbapi.com/?i=tt3896198&apikey=365d77a0&s=" + s + "&y=" + y + "&type=" + tp;
-    var reqget = basicreqget + "&page=" + p + "&r=xml";
-    console.log(reqget);     
+    var reqget = basicreqget + "&page=" + p + "&r=xml";     
     
     // Форма, конец
 
     // Запрос, начало
+
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open("GET", reqget, true);
 
@@ -35,12 +26,8 @@ function get_params_form(form){
             console.log("sumsearch = ", sumsearch);        
 
             var xmlAll = xmlhttp.responseXML.querySelectorAll("result");
-            //xmlAll = xmlhttp.responseXML;
-            // console.log("xmlAll = ", xmlAll);
             var formax = xmlAll.length <= 10?xmlAll.length:10; 
-            
-            console.log("ternarnui = ", formax);
-            
+
             var b = document.getElementById('body');
 
             var f = document.createElement('dim');
@@ -58,7 +45,6 @@ function get_params_form(form){
             r1.id="rowfoundcontent";
             f1.appendChild(r1);            
             
-
             for (let i=0; i<formax; i++){
                 let x = xmlAll[i];
                 console.log("x", x);
@@ -116,26 +102,31 @@ function get_params_form(form){
             // More ...
             if (sumsearch > 10){
                 var dm = document.createElement('div');
-                dm.className = "col-sm-4 col-md-3";            
+                dm.className = "col-sm-4 col-md-3";
+                dm.id = "idmore";         
                 r1.appendChild(dm);
 
                 var dm1 = document.createElement('div');
                 dm1.className = "product";
-                dm1.style = "margin-top:50%;font-style:italic;";
-                //var nextpage = document.createAttribute('nextpage');                
+                dm1.style = "margin-top:50%;font-style:italic;";                
                 p = p + 1;
-                //var pageurl = "http://www.omdbapi.com/?i=tt3896198&apikey=365d77a0&s=" + s + "&y=" + y + "&type=" + tp + "&page=" + p + "&r=xml";
-                var pageurl = basicreqget;// + "&page=" + p + "&r=xml";
+                var pageurl = basicreqget;
                 dm1.setAttribute('nextpage', pageurl);
-                //dm1.nextpage = pageurl;
-                dm1.setAttribute('onclick', 'pagemaker(this, ' + p +')');
-                //dm1.onclick = pagemaker();
-                //dm1.onclick += "return false;";    
+                dm1.setAttribute('onclick', 'addpage(this, ' + p +')');
                 dm.appendChild(dm1);
 
                 var spana = document.createElement('span');
                 spana.textContent = 'more ...';                       
                 dm1.appendChild(spana);
+
+                var dimg = document.createElement('div');
+                dimg.className = "product-img";
+                spana.appendChild(dimg);
+
+                var img = document.createElement('img');
+                img.src = "ajax-loader.gif";
+                img.id = "loadImg";
+                dimg.appendChild(img);
             }  
             
         }
@@ -146,19 +137,19 @@ function get_params_form(form){
 
 }
 
-function pagemaker(div, p){
-    reqget = div.getAttribute('nextpage');
-    addpage(reqget, p);
-}
+function addpage(div, p){
 
-function addpage(basicreqget, p){
+    startLoadingAnimation();    
+
+    basicreqget = div.getAttribute('nextpage');
     var xmlhttp = new XMLHttpRequest();
     reqget = basicreqget + "&page=" + p + "&r=xml";
-    xmlhttp.open("GET", reqget, true);
-
+    xmlhttp.open("GET", reqget, true);    
+    // Запрос
     xmlhttp.onreadystatechange=function() {
+        
+        if (xmlhttp.readyState==4) { 
 
-        if (xmlhttp.readyState==4) {
             root = xmlhttp.responseXML.querySelector("root");
             sumsearch = root.getAttribute("totalResults") * 1;
             console.log("sumsearch = ", sumsearch);
@@ -166,21 +157,7 @@ function addpage(basicreqget, p){
             var xmlAll = xmlhttp.responseXML.querySelectorAll("result");
             
             var formax = xmlAll.length <= 10?xmlAll.length:10; 
-                        
-            //var b = document.getElementById('body');
-
-            //var f1 = document.getElementById('foundedcontent');
-            //f.className = 'foundedcontent';
-            //b.appendChild(f);            
-
-            // var f1 = document.createElement('div');
-            // f1.className = "container content col-sm-12 col-md-12 products";
-            // f1.id = "foundedcontent";
-            // b.appendChild(f1);
-
-            //var r1 = document.createElement('div');
-            //r1.className = "row";
-            //f1.appendChild(r1);            
+  
             var r1 = document.getElementById('rowfoundcontent');
 
             for (let i=0; i<formax; i++){
@@ -237,29 +214,39 @@ function addpage(basicreqget, p){
                 span2.textContent = year;
                 d4.appendChild(span3);            
             }
-            // More ...
+            // останавливаем крутилку загрузки
+            stopLoadingAnimation();
+            // удаляем предыдущий More ...   
+            var mid = document.getElementById('idmore');
+            mid.remove(document);
+            // созадем новый More ...
             if (sumsearch > 10){
                 var dm = document.createElement('div');
-                dm.className = "col-sm-4 col-md-3";            
+                dm.className = "col-sm-4 col-md-3";
+                dm.id = "idmore";       
                 r1.appendChild(dm);
 
                 var dm1 = document.createElement('div');
                 dm1.className = "product";
-                dm1.style = "margin-top:50%;font-style:italic;";
-                //var nextpage = document.createAttribute('nextpage');                
+                dm1.style = "margin-top:50%;font-style:italic;";         
                 p = p + 1;
-                //var pageurl = "http://www.omdbapi.com/?i=tt3896198&apikey=365d77a0&s=" + this.s + "&y=" + this.y + "&type=" + this.tp + "&page=" + p + "&r=xml";
-                var pageurl = basicreqget;// + "&page=" + p + "&r=xml";
+                var pageurl = basicreqget;
                 dm1.setAttribute('nextpage', pageurl);
-                //dm1.nextpage = pageurl;
-                dm1.setAttribute('onclick', 'pagemaker(this, ' + p +')');
-                //dm1.onclick = pagemaker();
-                //dm1.onclick += "return false;";    
+                dm1.setAttribute('onclick', 'addpage(this, ' + p +')'); 
                 dm.appendChild(dm1);
 
                 var spana = document.createElement('span');
                 spana.textContent = 'more ...';                       
                 dm1.appendChild(spana);
+
+                var dimg = document.createElement('div');
+                dimg.className = "product-img";
+                spana.appendChild(dimg);
+
+                var img = document.createElement('img');
+                img.src = "ajax-loader.gif";
+                img.id = "loadImg";
+                dimg.appendChild(img);
             }  
             
         }
@@ -267,58 +254,19 @@ function addpage(basicreqget, p){
     xmlhttp.send(null)
 }
 
-
-// function myFunction(xml) {
-//     var x, i, xmlDoc, txt;
-//     xmlDoc = xml;//.responseXML;
-//     txt = "";
-//     x = xml;//xmlDoc.getElementsByTagName('movie');
-//     for (i = 0; i < x.length; i++) {
-//         txt += x[i].getAttribute('title') + "<br>";
-//         console.log(x[i]);
-//     }
-//     document.getElementById("demo").innerHTML = txt;
-// }
-
-
-
-
-
-// x = xmlhttp.responseXML.getElementsByTagName("movie")[0];
-// console.log("x = ", x);
-
-// y = x.childNodes[0];
-// console.log("y = ", y);
-
-
-
-
-
-// var xhr = new XMLHttpRequest();
-// xhr.onload = function() {
-//   dump(xhr.responseXML.documentElement.nodeName);
-// }
-// xhr.onerror = function() {
-//   dump("Error while getting XML.");
-// }
-// xhr.open("GET", "http://www.omdbapi.com/?i=tt3896198&apikey=365d77a0&t=Last&y=2019&r=xml");
-// xhr.responseType = "document";
-// xhr.overrideMimeType('text/xml');
-// xhr.onload = function () {
-//     if (xhr.readyState === xhr.DONE) {
-//       if (xhr.status === 200) {
-//         //console.log(xhr.response);
-//         console.log(xhr.responseXML);
-//       }
-//     }
-//   };
-  
-// xhr.send(null);
-
-// parser = new DOMParser();
-// xmlDoc = xhr.responseXML;
-
-// //document.getElementById("demo").innerHTML =
-// xmlDoc.getElementsByTagName("movie")[0].childNodes[0].nodeValue;
-
+function startLoadingAnimation() // - функция запуска анимации
+{    
+    // найдем элемент с изображением загрузки и уберем невидимость:
+    var imgObj = document.getElementById("loadImg");
+    imgObj.textContent = "";
+    imgObj.style = "position: relative; z-index: 1000; display: inline-block;";
+    console.log("imgObj = ", imgObj);
+}
+ 
+function stopLoadingAnimation() // - функция останавливающая анимацию
+{
+  // найдем элемент с изображением загрузки и сделаем невидимость:
+  var imgObj = document.getElementById("loadImg");
+  imgObj.style = "position:absolute; z-index:1000; display:none;";
+}
 

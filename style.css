@@ -47,4 +47,4 @@ body{
   font-weight: 500;
  }
 
-
+ #loadImg{position:absolute; z-index:1000; display:none;}
