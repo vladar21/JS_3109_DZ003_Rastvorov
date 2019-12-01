@@ -16,7 +16,9 @@ function get_params_form(form){
     //var s = unescape(t);
     console.log("s = ", s);    
 
-    var reqget = "http://www.omdbapi.com/?i=tt3896198&apikey=365d77a0&s=" + s + "&y=" + y + "&type=" + tp + "&page=" + p + "&r=xml";
+    //var reqget = "http://www.omdbapi.com/?i=tt3896198&apikey=365d77a0&s=" + s + "&y=" + y + "&type=" + tp + "&page=" + p + "&r=xml";
+    var basicreqget = "http://www.omdbapi.com/?i=tt3896198&apikey=365d77a0&s=" + s + "&y=" + y + "&type=" + tp;
+    var reqget = basicreqget + "&page=" + p + "&r=xml";
     console.log(reqget);     
     
     // Форма, конец
@@ -53,6 +55,7 @@ function get_params_form(form){
 
             var r1 = document.createElement('div');
             r1.className = "row";
+            r1.id="rowfoundcontent";
             f1.appendChild(r1);            
             
 
@@ -121,7 +124,8 @@ function get_params_form(form){
                 dm1.style = "margin-top:50%;font-style:italic;";
                 //var nextpage = document.createAttribute('nextpage');                
                 p = p + 1;
-                var pageurl = "http://www.omdbapi.com/?i=tt3896198&apikey=365d77a0&s=" + s + "&y=" + y + "&type=" + tp + "&page=" + p + "&r=xml";
+                //var pageurl = "http://www.omdbapi.com/?i=tt3896198&apikey=365d77a0&s=" + s + "&y=" + y + "&type=" + tp + "&page=" + p + "&r=xml";
+                var pageurl = basicreqget;// + "&page=" + p + "&r=xml";
                 dm1.setAttribute('nextpage', pageurl);
                 //dm1.nextpage = pageurl;
                 dm1.setAttribute('onclick', 'pagemaker(this, ' + p +')');
@@ -147,8 +151,9 @@ function pagemaker(div, p){
     addpage(reqget, p);
 }
 
-function addpage(reqget, p){
+function addpage(basicreqget, p){
     var xmlhttp = new XMLHttpRequest();
+    reqget = basicreqget + "&page=" + p + "&r=xml";
     xmlhttp.open("GET", reqget, true);
 
     xmlhttp.onreadystatechange=function() {
@@ -156,15 +161,15 @@ function addpage(reqget, p){
         if (xmlhttp.readyState==4) {
             root = xmlhttp.responseXML.querySelector("root");
             sumsearch = root.getAttribute("totalResults") * 1;
-            
+            console.log("sumsearch = ", sumsearch);
 
             var xmlAll = xmlhttp.responseXML.querySelectorAll("result");
             
             var formax = xmlAll.length <= 10?xmlAll.length:10; 
                         
-            var b = document.getElementById('body');
+            //var b = document.getElementById('body');
 
-            var f1 = document.getElementById('foundedcontent');
+            //var f1 = document.getElementById('foundedcontent');
             //f.className = 'foundedcontent';
             //b.appendChild(f);            
 
@@ -173,10 +178,10 @@ function addpage(reqget, p){
             // f1.id = "foundedcontent";
             // b.appendChild(f1);
 
-            var r1 = document.createElement('div');
-            r1.className = "row";
-            f1.appendChild(r1);            
-            
+            //var r1 = document.createElement('div');
+            //r1.className = "row";
+            //f1.appendChild(r1);            
+            var r1 = document.getElementById('rowfoundcontent');
 
             for (let i=0; i<formax; i++){
                 let x = xmlAll[i];
@@ -243,10 +248,11 @@ function addpage(reqget, p){
                 dm1.style = "margin-top:50%;font-style:italic;";
                 //var nextpage = document.createAttribute('nextpage');                
                 p = p + 1;
-                var pageurl = "http://www.omdbapi.com/?i=tt3896198&apikey=365d77a0&s=" + this.s + "&y=" + this.y + "&type=" + this.tp + "&page=" + p + "&r=xml";
+                //var pageurl = "http://www.omdbapi.com/?i=tt3896198&apikey=365d77a0&s=" + this.s + "&y=" + this.y + "&type=" + this.tp + "&page=" + p + "&r=xml";
+                var pageurl = basicreqget;// + "&page=" + p + "&r=xml";
                 dm1.setAttribute('nextpage', pageurl);
                 //dm1.nextpage = pageurl;
-                dm1.setAttribute('onclick', 'pagemaker(this)');
+                dm1.setAttribute('onclick', 'pagemaker(this, ' + p +')');
                 //dm1.onclick = pagemaker();
                 //dm1.onclick += "return false;";    
                 dm.appendChild(dm1);
