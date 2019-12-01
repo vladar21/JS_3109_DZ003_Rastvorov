@@ -1,5 +1,8 @@
 
 function get_params_form(form){
+    // Чистим форму от данных предыдущего запроса
+    var fid = document.getElementById('foundedcontent');
+    if (fid) fid.remove(document);
 
     // Форма, начало
     var s = form.elements["t"].value;
@@ -10,7 +13,8 @@ function get_params_form(form){
     //var reqget = "http://www.omdbapi.com/?i=tt3896198&apikey=365d77a0&s=" + s + "&y=" + y + "&type=" + tp + "&page=" + p + "&r=xml";
     var basicreqget = "http://www.omdbapi.com/?i=tt3896198&apikey=365d77a0&s=" + s + "&y=" + y + "&type=" + tp;
     var reqget = basicreqget + "&page=" + p + "&r=xml";     
-    
+    console.log('url = ', reqget);
+
     // Форма, конец
 
     // Запрос, начало
@@ -30,9 +34,9 @@ function get_params_form(form){
 
             var b = document.getElementById('body');
 
-            var f = document.createElement('dim');
-            f.className = 'foundedcontent';
-            b.appendChild(f);
+            // var f = document.createElement('div');
+            // f.className = 'foundedcontent';
+            // b.appendChild(f);
             //f.remove(b);
 
             var f1 = document.createElement('div');
@@ -65,15 +69,18 @@ function get_params_form(form){
 
                 var d5 = document.createElement('div');
                 d5.className = "product-img";
+                d5.id = "iddetails";
+                d5.setAttribute('onclick', 'openmodal(this)');
                 d4.appendChild(d5);
 
-                var a = document.createElement('a');
-                a.href = "#"; // ссылка на детальную информацию
-                d4.appendChild(a);
+                // var a = document.createElement('a');
+                // a.href = "#"; // ссылка на детальную информацию
+                // d4.appendChild(a);
 
                 var img = document.createElement('img');
                 img.src = poster;
-                a.appendChild(img);
+                d5.appendChild(img);
+                //a.appendChild(img);
 
                 var span1 = document.createElement('span');
                 span1.className = "product-title";
@@ -144,6 +151,7 @@ function addpage(div, p){
     basicreqget = div.getAttribute('nextpage');
     var xmlhttp = new XMLHttpRequest();
     reqget = basicreqget + "&page=" + p + "&r=xml";
+    
     xmlhttp.open("GET", reqget, true);    
     // Запрос
     xmlhttp.onreadystatechange=function() {
@@ -270,3 +278,7 @@ function stopLoadingAnimation() // - функция останавливающа
   imgObj.style = "position:absolute; z-index:1000; display:none;";
 }
 
+function openmodal(){
+    var modal = document.getElementById("myModal");
+    modal.style.display = "block";
+}
