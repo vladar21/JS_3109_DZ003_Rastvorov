@@ -280,5 +280,12 @@ function stopLoadingAnimation() // - функция останавливающа
 
 function openmodal(){
     var modal = document.getElementById("myModal");
-    modal.style.display = "block";
+    modal.style.display = "block";   
+    // var span = document.getElementById("idclose");
+    // span.setAttribute('onclick', 'closemodal()');
+}
+
+function closemodal(){
+    var modal = document.getElementById("myModal");
+    modal.style.display = "none";
 }

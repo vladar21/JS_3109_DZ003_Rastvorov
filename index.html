@@ -10,106 +10,90 @@
     <title>Document</title>
 </head>
 <body id="body">
-        <div class="bs-docs-section" id="examples">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="page-header">
-                            <h1>Search movie by www.omdbapi.com</h1>
-                        </div>
-                    </div>
+    <div class="bs-docs-section" id="examples">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-header">
+                    <h1>Search movie by www.omdbapi.com</h1>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="">
-                            <form class="" id="search-by-title-form" onsubmit="get_params_form(this);return false;">
-                                
-                                <div>
-                                    <label class="" for="t">Title:</label>
-                                    <input type="text" id="t" name="t" class="">
-                                    &nbsp;&nbsp;
-                                    <label class="" for="y">Year:</label>
-                                    <input type="text" id="y" name="y" class="" style="width: 100px;">
-                                    &nbsp;&nbsp;
-                                    <label class="">Type:</label>
-                                    <select name="plot" style="width: 100px;" id="type">
-                                        <option value="" selected>nothing</option>
-                                        <option value="movie">movie</option>
-                                        <option value="series">series</option>
-                                        <option value="episode">episode</option>
-                                    </select>
-                                    &nbsp;&nbsp;
-                                    <!-- <label class="control-label">Response:</label>
-                                    <select name="r" style="width: 100px;">
-                                        <option value="">JSON</option>
-                                        <option value="xml">XML</option>
-                                    </select>
-                                    &nbsp;&nbsp; -->
-                                    <button id="search-by-title-button" type="submit" class="btn-sm btn-primary">Search</button>
-                                    <button id="search-by-title-reset" type="reset" class="btn-sm">Reset</button>
-                                </div>
-
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <!-- <div class="row">
-                    <div class="col-lg-12">
-                        <div class="bs-component">
-                            <form class="well form-search" id="search-by-id-form" onsubmit="return false;">
-                            <fieldset>
-                                <legend>By ID</legend>
-                            </fieldset>
-                            <div>
-                                <label class="control-label" for="i">ID:</label>
-                                <input type="text" id="i" name="i" class="input-small" placeholder="IMDb ID">
-                                &nbsp;&nbsp;
-                                <label class="control-label">Plot:</label>
-                                <select name="plot" style="width: 100px;">
-                                    <option value="" selected="">Short</option>
-                                    <option value="full">Full</option>
-                                </select>
-                                &nbsp;&nbsp;
-                                <label class="control-label">Response:</label>
-                                <select name="r" style="width: 100px;">
-                                    <option value="">JSON</option>
-                                    <option value="xml">XML</option>
-                                </select>
-                                &nbsp;&nbsp;
-                                <button id="search-by-id-button" type="button" class="btn-sm btn-primary">Search</button>
-                                <button id="search-by-id-reset" type="reset" class="btn-sm">Reset</button>
-                            </div>
-                            <div class="hide" id="search-by-id-request">
-                                <br>
-                                <p>Request:</p>
-                                <pre class="alert alert-box"><a href="javascript:;" target="_blank"></a></pre>
-                            </div>
-                            <div id="search-by-id-progress" class="hide progress progress-info progress-striped active">
-                                <div class="progress-bar" style="width: 100%;">
-                                </div>
-                            </div>
-                            <div class="hide" id="search-by-id-response">
-                                <p>Response:</p>
-                                <pre class="alert alert-success" style="margin-bottom: 0px; white-space: normal;"></pre>
-                            </div>
-                            </form>
-                        </div>
-                    </div>
-                </div> -->
             </div>
-                   
-<div class="container-fluid" style="text-align: center; margin-top:15px;">
-    <h3>Films:</h3>
-</div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="">
+                    <form class="" id="search-by-title-form" onsubmit="get_params_form(this);return false;">
+                        
+                        <div>
+                            <label class="" for="t">Title:</label>
+                            <input type="text" id="t" name="t" class="">
+                            &nbsp;&nbsp;
+                            <label class="" for="y">Year:</label>
+                            <input type="text" id="y" name="y" class="" style="width: 100px;">
+                            &nbsp;&nbsp;
+                            <label class="">Type:</label>
+                            <select name="plot" style="width: 100px;" id="type">
+                                <option value="" selected>nothing</option>
+                                <option value="movie">movie</option>
+                                <option value="series">series</option>
+                                <option value="episode">episode</option>
+                            </select>
+                           
 
-<!-- Делаем модальное окно -->
-<div class="modal" id="myModal">
-    <div class="modal-content">
-        <span class="close"></span>
-        <p>Modal window</p>
+                            <button id="search-by-title-button" type="submit" class="btn-sm btn-primary">Search</button>
+                            <button id="search-by-title-reset" type="reset" class="btn-sm">Reset</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+                   
+    <div class="container-fluid" style="text-align: center; margin-top:15px;">
+        <h3>Films:</h3>
     </div>
 
-</div>
+<!-- Делаем модальное окно -->
 
+    <div class="mod" id="myModal">  
+        <div class="row mod-content">
+            <div class="breadcrumbs col-md-12 col-lg-12">
+                <span id="idclose" class="close" onclick="closemodal()">&times;</span>
+                <span>Modal window</span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 col-lg-6">
+                    <figure class="movie-poster"><img src="dummy.jpg" alt="#"></figure>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                    <h2 class="movie-title">The Croods</h2>
+                    <div class="movie-summary">
+                        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
+
+                        <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit sed.</p>
+                    </div>
+                    <ul class="movie-meta">
+                        <li><strong>Rating:</strong> 
+                            <div class="star-rating" title="Rated 4.00 out of 5"><span style="width:80%"><strong class="rating">4.00</strong> out of 5</span></div>
+                        </li>
+                        <li><strong>Length:</strong> 98 min</li>
+                        <li><strong>Premiere:</strong> 22 March 2013 (USA)</li>
+                        <li><strong>Category:</strong> Animation/Adventure/Comedy</li>
+                    </ul>
+
+                    <ul class="starring">
+                        <li><strong>Directors:</strong> Kirk de Mico (as Kirk DeMico). Chris Sanders</li>
+                        <li><strong>Writers:</strong> Chris Sanders (screenplay), Kirk De Micco (screenplay)</li>
+                        <li><strong>Stars:</strong> Nicolas Cage, Ryan Reynolds, Emma Stone</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
     <script src="main.js"></script>
 </body>
 </html>
