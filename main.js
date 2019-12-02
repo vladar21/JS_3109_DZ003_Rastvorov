@@ -52,6 +52,7 @@ function get_params_form(form){
             for (let i=0; i<formax; i++){
                 let x = xmlAll[i];
                 console.log("x", x);
+                let id = x.getAttribute('imdbID');
                 let title = x.getAttribute('title');
                 let type = x.getAttribute('type');
                 let year = x.getAttribute('year');
