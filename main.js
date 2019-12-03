@@ -183,6 +183,7 @@ function openmodal(div){
         if (jasonhttp.readyState==4) { 
             var resp = JSON.parse(jasonhttp.response);     
 
+            // Формируем содержание модального окна
             var posterimg = document.getElementById('idposter');
             posterimg.src = resp.Poster;
             posterimg.alt = resp.Title;
@@ -213,7 +214,19 @@ function openmodal(div){
             var rated = document.getElementById("idRated");
             rated.innerHTML = "<b>Rated:</b> " + resp.Rated;
             var ratings = document.getElementById("idRatings");
-            ratings.innerHTML = "<b>Rating:</b> " + resp.Ratings;
+            // Выводим рейтинги
+            if (resp.Ratings.length>1){
+                ratings.innerHTML = "<b>Ratings:</b>";                
+                var nul = document.createElement('ul');
+                ratings.appendChild(nul);
+                for (let i=0; i<resp.Ratings.length;i++){
+                    var nl = document.createElement('li');
+                    nl.innerHTML = '<b>' + resp.Ratings[i].Source + '</b>, ' + resp.Ratings[i].Value;
+                    nul.appendChild(nl);
+                }
+            }else{
+                ratings.innerHTML = "<b>Ratings:</b> " + resp.Ratings;
+            }
             var released = document.getElementById("idReleased");
             released.innerHTML = "<b>Released:</b> " + resp.Released;
             var runtime = document.getElementById("idRuntime");
@@ -232,7 +245,6 @@ function openmodal(div){
             imdbRating.innerHTML = "<b>imdbRating:</b> " + resp.imdbRating;
             var imdbVotes = document.getElementById("idImdbVotes");
             imdbVotes.innerHTML = "<b>imdbVotes:</b> " + resp.imdbVotes; 
-
         }
     }
     jasonhttp.send(null)

@@ -62,21 +62,20 @@ body{
  }
  .mod-content{
   position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -25%);
    background-color: #fefefe;
    margin:auto 15%;
-   padding:20px;
+   padding:10px;
    border:1px solid #888;
-   max-width:60%;
+   max-width:70%;   
    color: #84878d;
    font-family: "Roboto", "Open Sans", sans-serif;
    font-size: 15px;
    font-weight: 400;
    line-height: normal;
-   box-sizing: border-box;
+   /* box-sizing: border-box; */
  }
  .close{
    color:#aaa;
@@ -112,4 +111,32 @@ figure{
   display: block;
   margin: 0;
   margin-bottom: 30px;
+}
+
+/* Details */
+
+.list-rectangle {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.list-rectangle>li {
+  position: relative;
+  display: block;
+  margin-bottom: .25rem;
+  padding: .325rem .825rem .325rem 1.325rem;
+  color: #fff;
+  background: #C2185B;
+}
+.list-rectangle>li:last-child {
+  margin-bottom: 0;
+}
+.list-rectangle>li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0.5rem;
+  background: #ec407a;
 }
