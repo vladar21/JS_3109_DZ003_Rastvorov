@@ -1,18 +1,19 @@
 
 function get_params_form(form){
-    // Чистим форму от данных предыдущего запроса
+    // Чистим поле для найденных фильмов от данных предыдущего запроса
     var fid = document.getElementById('foundedcontent');
     if (fid) fid.remove(document);
 
-    // Форма, начало
+    // Получаем данные из формы
     var s = form.elements["t"].value;
     var y = form.elements["y"].value;
     var tp = form.elements["type"].value;
     var p = 1;
         
-    var basicreqget = "http://www.omdbapi.com/?i=tt3896198&apikey=365d77a0&s=" + s + "&y=" + y + "&type=" + tp;
+    var basicreqget = "http://www.omdbapi.com/?apikey=365d77a0&s=" + s + "&y=" + y + "&type=" + tp;
     var reqget = basicreqget + "&page=" + p + "&r=xml";     
     console.log('url = ', reqget);
+
     // добавляем очередную страницу найденных фильмов
     addpage(basicreqget, p)
 
@@ -166,9 +167,76 @@ function stopLoadingAnimation() // - функция останавливающа
   imgObj.style = "position:absolute; z-index:1000; display:none;";
 }
 
-function openmodal(){
+function openmodal(div){
     var modal = document.getElementById("myModal");
-    modal.style.display = "block";   
+    modal.style.display = "block";
+
+    // получаем данные о фильме в формате JSON
+    var urlID = "http://www.omdbapi.com/?apikey=365d77a0&r=json&plot=full&i=" + div.id;
+    console.log("urlID = ", urlID);
+
+    var jasonhttp = new XMLHttpRequest(); 
+    jasonhttp.open("GET", urlID, true);    
+    // Запрос
+    jasonhttp.onreadystatechange=function() {
+        
+        if (jasonhttp.readyState==4) { 
+            var resp = JSON.parse(jasonhttp.response);     
+
+            var posterimg = document.getElementById('idposter');
+            posterimg.src = resp.Poster;
+            posterimg.alt = resp.Title;
+            var titlemovie = document.getElementById('idtitlecontent');
+            titlemovie.innerHTML = resp.Title;
+            var titlemoviemodal = document.getElementById('idtitlemodal');
+            titlemoviemodal.innerHTML = resp.Title;
+            var summarymovie = document.getElementById('idsummary');
+            summarymovie.innerHTML = resp.Plot;
+            var actors = document.getElementById('idActors');
+            actors.innerHTML = "<b>Actors:</b> " + resp.Actors;
+            var awards = document.getElementById("idAwards");
+            awards.innerHTML = "<b>Awards:</b> " + resp.Awards;
+            var BoxOffice = document.getElementById("idBoxOffice");
+            BoxOffice.innerHTML = "<b>BoxOffice:</b> " + resp.BoxOffice;
+            var country = document.getElementById("idCountry");
+            country.innerHTML = "<b>Country:</b> " + resp.Country;
+            var DVD = document.getElementById("idDVD");
+            DVD.innerHTML = "<b>DVD:</b> " + resp.DVD;
+            var director = document.getElementById("idDirector");
+            director.innerHTML = "<b>Director:</b> " + resp.Director;
+            var genre = document.getElementById("idGenre");
+            genre.innerHTML = "<b>Genre:</b> " + resp.Genre;
+            var language = document.getElementById("idLanguage");
+            language.innerHTML = "<b>Language:</b> " + resp.Language;
+            var production = document.getElementById("idProduction");
+            production.innerHTML = "<b>Production:</b> " + resp.Production;
+            var rated = document.getElementById("idRated");
+            rated.innerHTML = "<b>Rated:</b> " + resp.Rated;
+            var ratings = document.getElementById("idRatings");
+            ratings.innerHTML = "<b>Rating:</b> " + resp.Ratings;
+            var released = document.getElementById("idReleased");
+            released.innerHTML = "<b>Released:</b> " + resp.Released;
+            var runtime = document.getElementById("idRuntime");
+            runtime.innerHTML = "<b>Runtime:</b> " + resp.Runtime;
+            var type = document.getElementById("idType");
+            type.innerHTML = "<b>Type:</b> " + resp.Type;
+            var website = document.getElementById("idWebsite");
+            website.innerHTML = "<b>Website:</b> " + resp.Website;
+            var writer = document.getElementById("idWriter");
+            writer.innerHTML = "<b>Writer:</b> " + resp.Writer;
+            var year = document.getElementById("idYear");
+            year.innerHTML = "<b>Year:</b> " + resp.Year;
+            var imdbID = document.getElementById("idImdbID");
+            imdbID.innerHTML = "<b>imdbID:</b> " + resp.imdbID;
+            var imdbRating = document.getElementById("idImdbRating");
+            imdbRating.innerHTML = "<b>imdbRating:</b> " + resp.imdbRating;
+            var imdbVotes = document.getElementById("idImdbVotes");
+            imdbVotes.innerHTML = "<b>imdbVotes:</b> " + resp.imdbVotes; 
+
+        }
+    }
+    jasonhttp.send(null)
+
 }
 
 function closemodal(){
