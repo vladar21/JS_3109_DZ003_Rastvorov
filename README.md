@@ -1,3 +1,3 @@
-#JavaScript + HTML + OMDb API 
+# JavaScript + HTML + OMDb API 
 
 The search by http://www.omdbapi.com/
